@@ -1,0 +1,58 @@
+trigger:
+- main  # Trigger the pipeline on push to the main branch
+
+pool:
+  vmImage: 'ubuntu-latest'  # Use an Ubuntu VM for the pipeline
+
+variables:
+  # Define variables for the project
+  frontendImage: 'yourdockerhub/telecom-billing-frontend'
+  backendImage: 'yourdockerhub/telecom-billing-backend'
+  registry: 'yourdockerhub'  # Your DockerHub registry
+  tag: '$(Build.BuildId)'  # Use the build ID as the tag
+
+steps:
+# 1. Checkout the code
+- task: Checkout@2
+  displayName: 'Checkout repository'
+
+# 2. Set up Docker
+- task: DockerInstaller@0
+  displayName: 'Install Docker'
+
+# 3. Build and push the frontend Docker image
+- task: DockerBuildAndPush@1
+  displayName: 'Build and Push Frontend Docker Image'
+  inputs:
+    containerRegistry: '$(registry)'  # Your DockerHub registry
+    repository: '$(frontendImage)'
+    command: 'buildAndPush'
+    dockerfile: '$(Build.SourcesDirectory)/frontend/Dockerfile'
+    tags: |
+      $(tag)
+
+# 4. Build and push the backend Docker image
+- task: DockerBuildAndPush@1
+  displayName: 'Build and Push Backend Docker Image'
+  inputs:
+    containerRegistry: '$(registry)'  # Your DockerHub registry
+    repository: '$(backendImage)'
+    command: 'buildAndPush'
+    dockerfile: '$(Build.SourcesDirectory)/backend/Dockerfile'
+    tags: |
+      $(tag)
+
+# 5. Deploy to Azure using Docker Compose (You can customize this for your specific Azure service)
+- task: AzureWebAppContainer@1
+  displayName: 'Deploy to Azure Web App'
+  inputs:
+    appName: 'your-web-app-name'  # The name of your Azure Web App
+    imageName: '$(registry)/$(frontendImage):$(tag)'  # Use frontend image
+    containerCommand: 'docker-compose -f azure-compose.yml up'  # Deploy with Docker Compose
+
+# 6. Clean up Docker images (optional, for reducing space)
+- task: Docker@2
+  displayName: 'Clean up Docker images'
+  inputs:
+    command: 'images'
+    arguments: '-a -q | xargs docker rmi'

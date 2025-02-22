@@ -1,0 +1,22 @@
+<div class="container">
+  <h1>Telecom Billing System</h1>
+
+  <div>
+    <h2>Usage Data</h2>
+    <ul>
+      <li *ngFor="let usage of usageData">
+        {{ usage.customerId }} - {{ usage.totalUsage }} - {{ usage.usageDate }}
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <h2>Add Usage</h2>
+    <form (ngSubmit)="addUsage()">
+      <input type="text" [(ngModel)]="customerId" name="customerId" placeholder="Customer ID" required>
+      <input type="number" [(ngModel)]="totalUsage" name="totalUsage" placeholder="Total Usage" required>
+      <input type="date" [(ngModel)]="usageDate" name="usageDate" required>
+      <button type="submit">Add Usage</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+{
+  "name": "telecom-billing-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
+  },
+  "private": true,
+  "dependencies": {
+    "@angular/animations": "^12.0.0",
+    "@angular/common": "^12.0.0",
+    "@angular/compiler": "^12.0.0",
+    "@angular/core": "^12.0.0",
+    "@angular/forms": "^12.0.0",
+    "@angular/platform-browser": "^12.0.0",
+    "@angular/platform-browser-dynamic": "^12.0.0",
+    "@angular/router": "^12.0.0",
+    "rxjs": "^6.6.7",
+    "tslib": "^2.2.0",
+    "zone.js": "^0.11.4",
+    "ngx-bootstrap": "^6.2.0",
+    "ng2-charts": "^2.4.2",
+    "chart.js": "^3.7.0"
+  },
+  "devDependencies": {
+    "@angular/cli": "^12.0.0",
+    "@angular/compiler-cli": "^12.0.0",
+    "@angular/language-service": "^12.0.0",
+    "typescript": "~4.2.0"
+  }
+}
